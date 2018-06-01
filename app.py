@@ -18,6 +18,8 @@ TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
 def nope(bot,update):
     global query_mem
+    if query_mem =="":
+        return -1
     id = update.message.from_user.id
     id = int(id)
     reply_markup = ReplyKeyboardRemove()
@@ -26,6 +28,10 @@ def nope(bot,update):
 
 def sure(bot,update):
     global query_mem
+
+    if query_mem == "":
+        return -1
+
     id = update.message.from_user.id
     id = int(id)
     reply_markup = ReplyKeyboardRemove()
