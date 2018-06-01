@@ -8,7 +8,7 @@ import requests
 import re,glob,os
 from pytube import YouTube
 
-
+lock = False
 query_mem = ""
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -17,7 +17,9 @@ logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
 def nope(bot,update):
+    global lock
     global query_mem
+
     if query_mem =="":
         return -1
     id = update.message.from_user.id
@@ -25,13 +27,15 @@ def nope(bot,update):
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="All right then", reply_markup=reply_markup)
     query_mem=""
+    lock = False
+
 
 def sure(bot,update):
+    global lock
     global query_mem
 
     if query_mem == "":
         return -1
-
     id = update.message.from_user.id
     id = int(id)
     reply_markup = ReplyKeyboardRemove()
@@ -44,6 +48,7 @@ def sure(bot,update):
         except:
            update.message.reply_text(" Download Failed ")
     query_mem=""
+    lock = False
 
 def download(link):
    try:
@@ -108,7 +113,10 @@ def start(bot, update):
     update.message.reply_text('Please enter the Artist and The song title, separate them with an space')
 
 def echo(bot, update):
-    global query_mem
+ global query_mem
+ global lock
+
+ if not lock:
     try:
 
         bot = Bot(TOKEN)
@@ -136,6 +144,7 @@ def echo(bot, update):
             query_mem = vid
             bot.send_message(chat_id=id, text=vid)
      #       update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
+            lock = True
             custom_keyboard = [
                 ['/sure '],
                 ['/nope']
@@ -152,6 +161,8 @@ def echo(bot, update):
 
     except:
         pass
+ else:
+     update.message.reply_text("Server is busy, please try again later")
 
 def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"' % (update, error))
