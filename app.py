@@ -15,6 +15,25 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 TOKEN = '572200960:AAF5wDZ1qNHK4LJEpLQwPsnB59F_vn34gCg'
 
+def youtube(q):
+   try:
+    base = "https://www.youtube.com/results?search_query="
+    qstring = str(q)+" song "
+    qstring = qstring.replace(" ","+")
+
+    r = requests.get(base + qstring)
+    page = r.content
+    soup = BeautifulSoup(page, 'html.parser')
+
+    vids = soup.findAll('a', attrs={'class': 'yt-uix-tile-link'})
+    v = vids[0]
+    tmp = 'https://www.youtube.com' + v['href']
+    tmp = str(tmp)
+    return tmp
+   except:
+       return False
+
+
 def LyricSearch(query):
   try:
     ret = ["","",""]
@@ -70,6 +89,11 @@ def echo(bot, update):
             bot.send_message(chat_id=id, text=fromweb[0])
             bot.send_message(chat_id=id, text=fromweb[1])
             bot.send_message(chat_id=id, text=fromweb[2])
+            bot.send_message(chat_id=id, text=str(youtube(query)))
+
+
+        else:
+            update.message.reply_text(" پیدا نشد ")
 
 
 
