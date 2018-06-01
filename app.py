@@ -5,7 +5,8 @@ from telegram import Bot
 from telegram.ext import Dispatcher, CommandHandler, MessageHandler, Updater, Filters
 from bs4 import BeautifulSoup
 import requests
-import re
+import re,glob,os
+from pytube import YouTube
 
 
 
@@ -14,6 +15,18 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
+
+def download(link):
+   try:
+    link = str (link)
+    yt = YouTube(link)
+    stream = yt.streams.filter(only_audio=True).first()
+    stream.download()
+    namelist = (glob.glob("*.mp4"))
+    return str(namelist[0])
+   except:
+       return False
+
 
 def youtube(q):
    try:
@@ -91,6 +104,13 @@ def echo(bot, update):
         #    bot.send_message(chat_id=id, text=fromweb[0])
             vid = str (youtube(query))
             bot.send_message(chat_id=id, text=vid)
+            file = download(vid)
+            if file:
+               try:
+                bot.send_document(chat_id=id, document=open(str(file), 'rb'))
+                os.remove(str(file))
+               except:
+                   pass
 
 
         else:
