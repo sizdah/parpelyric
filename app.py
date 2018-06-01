@@ -28,7 +28,6 @@ def sure(bot,update):
     global query_mem
     id = update.message.from_user.id
     id = int(id)
-    query = str(bot.get_updates()[-2].message.text)
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="Please hold on a little bit, Audio file will be sent to you in minutes as it gets ready...", reply_markup=reply_markup)
     file = download(query_mem)
@@ -39,7 +38,7 @@ def sure(bot,update):
         except:
            update.message.reply_text(" Download Failed ")
     query_mem=""
-    
+
 def download(link):
    try:
     link = str (link)
