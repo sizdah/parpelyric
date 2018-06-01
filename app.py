@@ -16,6 +16,24 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
+def nope():
+    reply_markup = ReplyKeyboardRemove()
+    bot.send_message(chat_id=id, text="All right then", reply_markup=reply_markup)
+
+def sure(bot,update):
+
+    tex =str(bot.get_updates()[-1].message.text)
+    reply_markup = ReplyKeyboardRemove()
+    bot.send_message(chat_id=id, text="Audio file will be sent to you in minutes as it gets ready...", reply_markup=reply_markup)
+
+    file = download(tex)
+    if file:
+        try:
+            bot.send_document(chat_id=id, document=open(str(file), 'rb'))
+            os.remove(str(file))
+        except:
+           update.message.reply_text(" Download Failed ")
+
 def download(link):
    try:
     link = str (link)
@@ -79,6 +97,7 @@ def start(bot, update):
     update.message.reply_text('Please enter the Artist and The song title, separate them with an space')
 
 def echo(bot, update):
+    global vid
     try:
 
         bot = Bot(TOKEN)
@@ -104,14 +123,14 @@ def echo(bot, update):
         #    bot.send_message(chat_id=id, text=fromweb[0])
             vid = str (youtube(query))
             bot.send_message(chat_id=id, text=vid)
-            update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
-            file = download(vid)
-            if file:
-               try:
-                bot.send_document(chat_id=id, document=open(str(file), 'rb'))
-                os.remove(str(file))
-               except:
-                   pass
+     #       update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
+            custom_keyboard = [
+                ['/Sure '],
+                ['/Nope']
+            ]
+            reply_markup = ReplyKeyboardMarkup(custom_keyboard)
+            bot.send_message(chat_id=id, text="Would you like to download the music audio file?", reply_markup=reply_markup)
+
 
 
         else:
