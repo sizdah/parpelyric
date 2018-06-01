@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
 def nope(bot,update):
-    global lock
     global query_mem
 
     if query_mem =="":
@@ -27,7 +26,7 @@ def nope(bot,update):
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="All right then", reply_markup=reply_markup)
     query_mem=""
-    lock = False
+
 
 
 def sure(bot,update):
@@ -36,6 +35,7 @@ def sure(bot,update):
 
     if query_mem == "":
         return -1
+    lock = True
     id = update.message.from_user.id
     id = int(id)
     reply_markup = ReplyKeyboardRemove()
@@ -144,7 +144,6 @@ def echo(bot, update):
             query_mem = vid
             bot.send_message(chat_id=id, text=vid)
      #       update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
-            lock = True
             custom_keyboard = [
                 ['/sure '],
                 ['/nope']
