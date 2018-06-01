@@ -17,18 +17,18 @@ logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
 def nope(bot,update):
-    id = int (bot.get_updates()[-1].message.from_user.id)
+    id = update.message.from_user.id
+    id = int(id)
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="All right then", reply_markup=reply_markup)
 
 def sure(bot,update):
-    
-    id = int(bot.get_updates()[-1].message.from_user.id)
-    tex =str(bot.get_updates()[-2].message.text)
+    id = update.message.from_user.id
+    id = int(id)
+    query = str(update.message.text)
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="Please hold on a little bit, Audio file will be sent to you in minutes as it gets ready...", reply_markup=reply_markup)
-
-    file = download(tex)
+    file = download(youtube(query))
     if file:
         try:
             bot.send_document(chat_id=id, document=open(str(file), 'rb'))
