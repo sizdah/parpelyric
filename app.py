@@ -9,7 +9,7 @@ import re,glob,os
 from pytube import YouTube
 
 
-
+query_mem = ""
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -17,25 +17,29 @@ logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
 def nope(bot,update):
+    global query_mem
     id = update.message.from_user.id
     id = int(id)
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="All right then", reply_markup=reply_markup)
+    query_mem=""
 
 def sure(bot,update):
+    global query_mem
     id = update.message.from_user.id
     id = int(id)
-    query = str(update.message.text)
+    query = str(bot.get_updates()[-2].message.text)
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="Please hold on a little bit, Audio file will be sent to you in minutes as it gets ready...", reply_markup=reply_markup)
-    file = download(youtube(query))
+    file = download(query_mem)
     if file:
         try:
             bot.send_document(chat_id=id, document=open(str(file), 'rb'))
             os.remove(str(file))
         except:
            update.message.reply_text(" Download Failed ")
-
+    query_mem=""
+    
 def download(link):
    try:
     link = str (link)
@@ -99,7 +103,7 @@ def start(bot, update):
     update.message.reply_text('Please enter the Artist and The song title, separate them with an space')
 
 def echo(bot, update):
-    global vid
+    global query_mem
     try:
 
         bot = Bot(TOKEN)
@@ -124,6 +128,7 @@ def echo(bot, update):
             bot.send_message(chat_id=id, text=fromweb[2])
         #    bot.send_message(chat_id=id, text=fromweb[0])
             vid = str (youtube(query))
+            query_mem = vid
             bot.send_message(chat_id=id, text=vid)
      #       update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
             custom_keyboard = [
