@@ -16,7 +16,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
-def nope():
+def nope(bot,update):
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="All right then", reply_markup=reply_markup)
 
@@ -160,6 +160,8 @@ def setup(webhook_url=None):
         dp = updater.dispatcher
         dp.add_handler(CommandHandler("start", start))
         dp.add_handler(CommandHandler("help", start))
+        dp.add_handler(CommandHandler("sure", sure))
+        dp.add_handler(CommandHandler("nope", nope))
 
         # on noncommand i.e message - echo the message on Telegram
         dp.add_handler(MessageHandler(Filters.text, echo))
