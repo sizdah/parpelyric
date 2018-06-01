@@ -88,7 +88,7 @@ def echo(bot, update):
         if (fromweb):
             bot.send_message(chat_id=id, text=fromweb[1])
             bot.send_message(chat_id=id, text=fromweb[2])
-            bot.send_message(chat_id=id, text=fromweb[0])
+        #    bot.send_message(chat_id=id, text=fromweb[0])
             vid = str (youtube(query))
             bot.send_message(chat_id=id, text=vid)
 
