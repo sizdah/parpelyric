@@ -23,7 +23,7 @@ def nope(bot,update):
 
 def sure(bot,update):
     id = int (bot.get_updates()[-1].message.chat_id)
-    tex =str(bot.get_updates()[-1].message.text)
+    tex =str(bot.get_updates()[-2].message.text)
     reply_markup = ReplyKeyboardRemove()
     bot.send_message(chat_id=id, text="Please hold on a little bit, Audio file will be sent to you in minutes as it gets ready...", reply_markup=reply_markup)
 
