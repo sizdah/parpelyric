@@ -1,7 +1,7 @@
 import logging
 from queue import Queue
 from threading import Thread
-from telegram import Bot
+from telegram import Bot,ReplyKeyboardMarkup,ReplyKeyboardRemove
 from telegram.ext import Dispatcher, CommandHandler, MessageHandler, Updater, Filters
 from bs4 import BeautifulSoup
 import requests
@@ -24,7 +24,7 @@ def sure(bot,update):
 
     tex =str(bot.get_updates()[-1].message.text)
     reply_markup = ReplyKeyboardRemove()
-    bot.send_message(chat_id=id, text="Audio file will be sent to you in minutes as it gets ready...", reply_markup=reply_markup)
+    bot.send_message(chat_id=id, text="Please hold on a little bit, Audio file will be sent to you in minutes as it gets ready...", reply_markup=reply_markup)
 
     file = download(tex)
     if file:
