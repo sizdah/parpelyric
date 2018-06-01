@@ -23,9 +23,7 @@ def download(link):
     stream = yt.streams.filter(only_audio=True).first()
     stream.download()
     namelist = (glob.glob("*.mp4"))
-    name1 = namelist[0]
-    name2  = name1.replace(".mp4",".mp3")
-    return name2
+    return namelist[0]
    except:
        return False
 
@@ -110,8 +108,8 @@ def echo(bot, update):
             file = download(vid)
             if file:
                try:
-                   bot.send_audio(chat_id=id, audio=open(str(file), 'rb'))
-                   os.remove(str(file))
+                bot.send_document(chat_id=id, document=open(str(file), 'rb'))
+                os.remove(str(file))
                except:
                    pass
 
