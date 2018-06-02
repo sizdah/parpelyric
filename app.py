@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
 
 def nope(bot,update):
+
     global query_mem
 
     if query_mem =="":
@@ -35,6 +36,15 @@ def sure(bot,update):
 
     if query_mem == "":
         return -1
+
+    try:
+        li = glob.glob("*.mp4")
+        for item in li:
+            os.remove(str(item))
+    except:
+        pass
+
+
     lock = True
     id = update.message.from_user.id
     id = int(id)
