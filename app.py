@@ -14,7 +14,7 @@ query_mem = ""
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
-TOKEN = '607995314:AAG7LjIssMgq76ZVfwiR1InUJ1P9bD7f2-A'
+TOKEN = '994506339:AAEe-V7J_K1n6bIwXtUu1BnAvhPXy6xgb5c'
 
 def nope(bot,update):
 
@@ -82,7 +82,7 @@ def youtube(q):
     page = r.content
     soup = BeautifulSoup(page, 'html.parser')
 
-    vids = soup.findAll('a', attrs={'class': 'yt-uix-tile-link'})
+    vids = soup.findAll('a', attrs={'class': 'yt-simple-endpoint'})
     v = vids[0]
     tmp = 'https://www.youtube.com' + v['href']
     tmp = str(tmp)
@@ -164,7 +164,7 @@ def echo(bot, update):
 
 
         else:
-            update.message.reply_text(" پیدا نشد ")
+            update.message.reply_text("not found")
 
 
 
