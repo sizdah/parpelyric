@@ -150,16 +150,16 @@ def echo(bot, update):
             bot.send_message(chat_id=id, text=fromweb[1])
             bot.send_message(chat_id=id, text=fromweb[2])
         #    bot.send_message(chat_id=id, text=fromweb[0])
-            vid = str (youtube(query))
-            query_mem = vid
-            bot.send_message(chat_id=id, text=vid)
+       #     vid = str (youtube(query))
+      #      query_mem = vid
+      #      bot.send_message(chat_id=id, text=vid)
      #       update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
-            custom_keyboard = [
-                ['/sure '],
-                ['/nope']
-            ]
-            reply_markup = ReplyKeyboardMarkup(custom_keyboard)
-            bot.send_message(chat_id=id, text="Would you like to download the music audio file?", reply_markup=reply_markup)
+    #        custom_keyboard = [
+     #           ['/sure '],
+     #           ['/nope']
+      #      ]
+      #      reply_markup = ReplyKeyboardMarkup(custom_keyboard)
+      #      bot.send_message(chat_id=id, text="Would you like to download the music audio file?", reply_markup=reply_markup)
 
 
 
