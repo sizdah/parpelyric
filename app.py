@@ -8,6 +8,13 @@ import requests
 import re,glob,os
 from pytube import YouTube
 
+import urllib.request
+import urllib.parse
+
+
+
+
+
 lock = False
 query_mem = ""
 
@@ -74,19 +81,32 @@ def download(link):
 
 def youtube(q):
    try:
-    base = "https://www.youtube.com/results?search_query="
-    qstring = str(q)+" song "
-    qstring = qstring.replace(" ","+")
-
-    r = requests.get(base + qstring)
-    page = r.content
-    soup = BeautifulSoup(page, 'html.parser')
-
-    vids = soup.findAll('a', attrs={'class': 'yt-simple-endpoint'})
-    v = vids[0]
-    tmp = 'https://www.youtube.com' + v['href']
-    tmp = str(tmp)
-    return tmp
+#    base = "https://www.youtube.com/results?search_query="
+#    qstring = str(q)+" song "
+ #   qstring = qstring.replace(" ","+")
+#
+ #   r = requests.get(base + qstring)
+ #   page = r.content
+#    soup = BeautifulSoup(page, 'html.parser')
+#
+#    vids = soup.findAll('a', attrs={'class': 'yt-simple-endpoint'})
+ #   v = vids[0]
+ #   tmp = 'https://www.youtube.com' + v['href']
+#    tmp = str(tmp)
+ #   return tmp
+  
+  #NEW CODE
+ 
+      query_string = urllib.parse.urlencode({"search_query" : q })
+      html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
+      search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
+      print("http://www.youtube.com/watch?v=" + search_results[0])
+      x = "http://www.youtube.com/watch?v=" + search_results[0]
+      return x
+  
+  
+  
+  
    except:
        return False
 
@@ -150,16 +170,16 @@ def echo(bot, update):
             bot.send_message(chat_id=id, text=fromweb[1])
             bot.send_message(chat_id=id, text=fromweb[2])
         #    bot.send_message(chat_id=id, text=fromweb[0])
-       #     vid = str (youtube(query))
-      #      query_mem = vid
-      #      bot.send_message(chat_id=id, text=vid)
-     #       update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
-    #        custom_keyboard = [
-     #           ['/sure '],
-     #           ['/nope']
-      #      ]
-      #      reply_markup = ReplyKeyboardMarkup(custom_keyboard)
-      #      bot.send_message(chat_id=id, text="Would you like to download the music audio file?", reply_markup=reply_markup)
+            vid = str (youtube(query))
+            query_mem = vid
+            bot.send_message(chat_id=id, text=vid)
+            update.message.reply_text("Audio file will be sent to you in minutes as it gets ready")
+            custom_keyboard = [
+                ['/sure '],
+                ['/nope']
+             ]
+            reply_markup = ReplyKeyboardMarkup(custom_keyboard)
+            bot.send_message(chat_id=id, text="Would you like to download the music audio file?", reply_markup=reply_markup)
 
 
 
