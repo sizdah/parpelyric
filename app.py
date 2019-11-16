@@ -29,7 +29,7 @@ query_mem = ""
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
-TOKEN = '994506339:AAEe-V7J_K1n6bIwXtUu1BnAvhPXy6xgb5c'
+TOKEN = 'YOUR TOKEN'
 
 def nope(bot,update):
 
